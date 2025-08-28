@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ScoreRepo extends JpaRepository<Score, Long> {
     // If you want to fetch *all* in that order:
-    List<Score> findAllByOrderByScoreDescCreatedAtAsc();
+
+    List<Score> findTop10ByOrderByScoreDescCreatedAtAsc();
 }

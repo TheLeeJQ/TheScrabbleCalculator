@@ -3,6 +3,7 @@ package com.jq.scrabble.scrabble_calculator.controller;
 import com.jq.scrabble.scrabble_calculator.domain.LetterPoints;
 import com.jq.scrabble.scrabble_calculator.dto.ScoreRequest;
 import com.jq.scrabble.scrabble_calculator.dto.ScoreResponse;
+import com.jq.scrabble.scrabble_calculator.dto.TopScoreResponse;
 import com.jq.scrabble.scrabble_calculator.entity.Score;
 import com.jq.scrabble.scrabble_calculator.service.ScoreService;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,10 @@ public class ScoreController {
         this.ss = ss;
     }
 
-    @GetMapping("/getAll")
-    public void getAll(){
-        System.out.println(ss.top10().get(0).getWord());
-        System.out.println(ss.top10().get(0).getScore());
+    @GetMapping("/getTopTenScores")
+    public TopScoreResponse getTopTenScores(){
+        List<Score> topScores = ss.getTopTenScores();
+        return new TopScoreResponse(topScores);
     }
 
     @PostMapping("/calculateScore")
@@ -47,7 +48,7 @@ public class ScoreController {
 
         //Save into DB
         Score newScore = new Score();
-        newScore.setWord(tiles.toString());
+        newScore.setWord(String.join("",tiles));
         newScore.setScore(score);
         ss.saveScore(newScore);
         return new ScoreResponse(score);

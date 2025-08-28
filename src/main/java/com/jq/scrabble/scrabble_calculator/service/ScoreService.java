@@ -11,8 +11,8 @@ public class ScoreService {
     private final ScoreRepo repo;
     public ScoreService(ScoreRepo repo) { this.repo = repo; }
 
-    public List<Score> top10() {
-        return repo.findAllByOrderByScoreDescCreatedAtAsc();
+    public List<Score> getTopTenScores() {
+        return repo.findTop10ByOrderByScoreDescCreatedAtAsc();
     }
 
     public Score saveScore(Score score){
