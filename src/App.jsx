@@ -5,6 +5,11 @@ import ScoreDisplay from "./components/ScoreDisplay";
 
 function App() {
   const [inputTiles, setInputTiles] = useState(Array(10).fill(""));
+  const [score, setScore] = useState(0);
+
+  function handleResetTiles() {
+    setInputTiles(Array(10).fill(""));
+  }
 
   function handleTileInputChange(newVal, selectedTileIdx) {
     const clean = newVal.slice(-1).toUpperCase();
@@ -17,6 +22,43 @@ function App() {
     );
   }
 
+  async function calculateAndSetScore() {
+    try {
+      const res = await fetch("http://localhost:8080/api/calculateScore", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ inputTiles }), // 👈 wraps tiles array into an object
+      });
+
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      const data = await res.json();
+      console.log("Response from backend:", data);
+      setScore(data.score);
+    } catch (err) {
+      console.error("Failed to send tiles:", err);
+    }
+  }
+
+  async function saveScore() {
+    try {
+      const res = await fetch("http://localhost:8080/api/saveScore", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ inputTiles }), // 👈 wraps tiles array into an object
+      });
+
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      const data = await res.json();
+      console.log("Score saved:", data);
+    } catch (err) {
+      alert("Word already exists in the database");
+    }
+  }
+
   useEffect(() => {
     console.log("Tiles changed:", inputTiles);
   }, [inputTiles]);
@@ -24,9 +66,10 @@ function App() {
   return (
     <>
       <TileInputRow tiles={inputTiles} onTileChange={handleTileInputChange} />
-      <ScoreDisplay />
-      <button>Reset Tiles</button>
-      <button>Save Score</button>
+      <ScoreDisplay score={score} />
+      <button onClick={handleResetTiles}>Reset Tiles</button>
+      <button onClick={saveScore}>Save Score</button>
+      <button onClick={calculateAndSetScore}>Calculate Score</button>
       <button>View Top Scores</button>
     </>
   );

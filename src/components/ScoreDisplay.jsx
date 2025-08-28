@@ -1,17 +1,12 @@
-export default function ScoreDisplay({
-  score = 0,
-  isLoading = false,
-  error = "",
-}) {
+export default function ScoreDisplay({ score = 0 }) {
   return (
     <div className="score" aria-live="polite">
       <strong>Score:</strong>{" "}
-      {isLoading ? (
+      {score == 0 ? (
         "calculating…"
       ) : (
         <span className="score-value">{score}</span>
       )}
-      {error && <span className="score-error"> · {error}</span>}
     </div>
   );
 }
