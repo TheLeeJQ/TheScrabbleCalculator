@@ -14,4 +14,9 @@ public class ScoreService {
     public List<Score> top10() {
         return repo.findAllByOrderByScoreDescCreatedAtAsc();
     }
+
+    public Score saveScore(Score score){
+        return repo.save(score);
+    }
+
 }

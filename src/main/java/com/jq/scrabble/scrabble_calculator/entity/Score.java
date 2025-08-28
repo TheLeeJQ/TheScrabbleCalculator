@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "scores")
+@Table(
+        name = "scores",
+uniqueConstraints = @UniqueConstraint(name = "uq_scores_word", columnNames = "word")
+)
 public class Score {
 
     @Id
