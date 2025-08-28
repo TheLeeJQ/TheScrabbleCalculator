@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import TileInputRow from "./components/TileInputRow";
 import ScoreDisplay from "./components/ScoreDisplay";
+import TopScoreModal from "./components/TopScoreModal";
 
 function App() {
   const [inputTiles, setInputTiles] = useState(Array(10).fill(""));
   const [score, setScore] = useState(0);
+  const [topScores, setTopScores] = useState([]);
+  const dialog = useRef();
 
   function handleResetTiles() {
     setInputTiles(Array(10).fill(""));
@@ -41,6 +44,26 @@ function App() {
     }
   }
 
+  async function showTopScore() {
+    try {
+      const res = await fetch("http://localhost:8080/api/getTopTenScores", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      const data = await res.json();
+      console.log("Response from backend:", data);
+      setTopScores(data.topScore);
+    } catch (error) {
+      console.error("Failed to send tiles:", err);
+    }
+
+    dialog.current.open();
+  }
+
   async function saveScore() {
     try {
       const res = await fetch("http://localhost:8080/api/saveScore", {
@@ -65,12 +88,13 @@ function App() {
 
   return (
     <>
+      <TopScoreModal ref={dialog} topScores={topScores} />
       <TileInputRow tiles={inputTiles} onTileChange={handleTileInputChange} />
       <ScoreDisplay score={score} />
       <button onClick={handleResetTiles}>Reset Tiles</button>
       <button onClick={saveScore}>Save Score</button>
       <button onClick={calculateAndSetScore}>Calculate Score</button>
-      <button>View Top Scores</button>
+      <button onClick={showTopScore}>View Top Scores</button>
     </>
   );
 }
