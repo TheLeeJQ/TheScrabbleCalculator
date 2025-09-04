@@ -17,6 +17,7 @@ function App() {
   }
 
   function handleTileInputChange(newVal, selectedTileIdx) {
+    console.log("handle input tile change");
     const clean = newVal.slice(-1).toUpperCase();
 
     // allow only A–Z
@@ -101,6 +102,7 @@ function App() {
 
   useEffect(() => {
     console.log("Tiles changed:", inputTiles);
+    calculateAndSetScore();
   }, [inputTiles]);
 
   return (
@@ -120,9 +122,6 @@ function App() {
       </button>
       <button className="app-button" onClick={saveScore}>
         Save Score
-      </button>
-      <button className="app-button" onClick={calculateAndSetScore}>
-        Calculate Score
       </button>
       <button className="app-button" onClick={showTopScore}>
         View Top Scores

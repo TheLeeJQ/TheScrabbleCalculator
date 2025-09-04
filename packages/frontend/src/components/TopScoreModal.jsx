@@ -1,4 +1,5 @@
 import { useImperativeHandle, useRef } from "react";
+import "./TopScoreModal.css";
 
 export default function TopScoreModal({ topScores, ref }) {
   const dialog = useRef();

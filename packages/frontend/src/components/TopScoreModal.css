@@ -1,0 +1,139 @@
+:root {
+  /* palette tuned to your app */
+  --teal: #1c706e; /* background / brand */
+  --brown: #5b3f30; /* accents / headings */
+  --tile: #ead6ac; /* light tile beige */
+  --text: #0f172a; /* deep slate text */
+  --muted: #64748b; /* secondary text */
+}
+
+/* Native dialog container */
+dialog {
+  border: 0;
+  padding: 0;
+  border-radius: 16px;
+  width: min(620px, 92vw);
+  color: var(--text);
+  background: radial-gradient(
+      800px 300px at -10% -20%,
+      rgba(28, 112, 110, 0.15),
+      transparent 40%
+    ),
+    #ffffff;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.25) inset;
+  overflow: hidden;
+  animation: modal-enter 220ms ease-out;
+}
+
+/* Dimmed backdrop */
+dialog::backdrop {
+  background: rgba(2, 6, 23, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+/* Header */
+dialog h1 {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--brown);
+  border-bottom: 1px solid rgba(100, 116, 139, 0.18);
+}
+
+/* Content area (your <h2> rows live here) */
+dialog > h2,
+dialog > div,
+dialog > section,
+dialog > p {
+  padding: 0 1.25rem;
+}
+
+/* Score rows */
+dialog h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* pushes word and score apart if you ever split them */
+  gap: 0.75rem;
+  margin: 0.65rem 0;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: var(--text);
+  background: linear-gradient(145deg, #f6ebd3 0%, #ead6ac 45%, #e0c48f 100%);
+  border: 1px solid rgba(91, 63, 48, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 4px 0 rgba(91, 63, 48, 0.5),
+    /* lip for 3D tile feel */ 0 8px 16px rgba(0, 0, 0, 0.15); /* soft drop shadow */
+}
+
+/* Light separator effect between your list items */
+dialog h2 + h2 {
+  margin-top: 0.5rem;
+}
+
+/* Make the “— score” bit stand out even with your current string format */
+dialog h2::after {
+  /* no-op by default; left in case you later split word & score into elements */
+  content: "";
+}
+
+/* Scroll handling if many scores */
+dialog {
+  max-height: 70vh;
+}
+dialog > :last-child {
+  margin-bottom: 1rem;
+}
+
+/* Helper styles if you later wrap the list */
+.top-scores-empty {
+  padding: 1rem 1.25rem;
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Motion-respect and entrance */
+@keyframes modal-enter {
+  from {
+    transform: translateY(8px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog {
+    animation: none;
+  }
+}
+
+/* Optional: button that you might add later (form method="dialog") */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem 1.25rem;
+  border-top: 1px solid rgba(100, 116, 139, 0.14);
+}
+.modal-actions .app-button {
+  background: var(--teal);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(28, 112, 110, 0.6), 0 8px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 0.08s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+.modal-actions .app-button:hover {
+  filter: brightness(1.05);
+}
+.modal-actions .app-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 rgba(28, 112, 110, 0.6), 0 6px 10px rgba(0, 0, 0, 0.16);
+}
