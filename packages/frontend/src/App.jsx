@@ -95,6 +95,7 @@ function App() {
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       const data = await res.json();
       console.log("Score saved:", data);
+      alert("Score saved successfully!");
     } catch (err) {
       alert("Word already exists in the database");
     }

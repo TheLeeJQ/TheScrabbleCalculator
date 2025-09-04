@@ -1,7 +1,7 @@
 :root {
   /* palette tuned to your app */
   --teal: #1c706e; /* background / brand */
-  --brown: #5b3f30; /* accents / headings */
+  --brown: #f6ebd3; /* accents / headings */
   --tile: #ead6ac; /* light tile beige */
   --text: #0f172a; /* deep slate text */
   --muted: #64748b; /* secondary text */
@@ -19,7 +19,7 @@ dialog {
       rgba(28, 112, 110, 0.15),
       transparent 40%
     ),
-    #ffffff;
+    #1c706e;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45),
     0 1px 0 rgba(255, 255, 255, 0.25) inset;
   overflow: hidden;
@@ -81,7 +81,15 @@ dialog h2::after {
 
 /* Scroll handling if many scores */
 dialog {
-  max-height: 70vh;
+  max-height: 80vh; /* prevent going off screen */
+  max-width: 500px;
+  width: 90%;
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  overflow-y: auto; /* add scroll if too tall */
 }
 dialog > :last-child {
   margin-bottom: 1rem;
