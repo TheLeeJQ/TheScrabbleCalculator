@@ -3,7 +3,7 @@ import "./App.css";
 import TileInputRow from "./components/TileInputRow";
 import ScoreDisplay from "./components/ScoreDisplay";
 import TopScoreModal from "./components/TopScoreModal";
-import "./components/Button.css"; // 👈 import new CSS
+import "./components/Button.css";
 import homeLogo from "./assets/home-image-banner.png";
 
 function App() {
